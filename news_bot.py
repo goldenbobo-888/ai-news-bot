@@ -1,3 +1,4 @@
+```python
 import requests
 import xml.etree.ElementTree as ET
 import os
@@ -23,15 +24,16 @@ if response.status_code == 200:
     message = "📈 **US MARKET NEWS**\n\n"
 
     for item in items[:3]:
-    title = item.find("title").text
+        title = item.find("title").text
 
-    message += f"📰 {title[:120]}\n\n"
+        message += f"📰 {title[:120]}\n\n"
 
+    # Discord limit = 2000 chars
     message = message[:1900]
 
     r = requests.post(
-    WEBHOOK_URL,
-    json={"content": message}
+        WEBHOOK_URL,
+        json={"content": message}
     )
 
     print("Discord Status:", r.status_code)
@@ -39,3 +41,4 @@ if response.status_code == 200:
 
 else:
     print("RSS Failed")
+```

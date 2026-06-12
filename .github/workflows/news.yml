@@ -12,7 +12,6 @@ jobs:
 send-news:
 runs-on: ubuntu-latest
 
-```
 steps:
   - uses: actions/checkout@v4
 
@@ -46,4 +45,3 @@ steps:
         git commit -m "Update news cache"
         git push
       )
-```

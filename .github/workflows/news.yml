@@ -1,28 +1,49 @@
 name: Daily Market News
 
 on:
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+schedule:
+- cron: '*/5 * * * *'
+workflow_dispatch:
+
+permissions:
+contents: write
 
 jobs:
-  send-news:
-    runs-on: ubuntu-latest
+send-news:
+runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v4
+```
+steps:
+  - uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+  - name: Set up Python
+    uses: actions/setup-python@v5
+    with:
+      python-version: '3.11'
 
-      - name: Install packages
-        run: |
-          pip install requests
+  - name: Install packages
+    run: |
+      pip install requests
 
-      - name: Run News Bot
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
-        run: |
-          python news_bot.py
+  - name: Run News Bot
+    env:
+      DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+      TRUMP_WEBHOOK: ${{ secrets.TRUMP_WEBHOOK }}
+      FED_WEBHOOK: ${{ secrets.FED_WEBHOOK }}
+      AI_WEBHOOK: ${{ secrets.AI_WEBHOOK }}
+      SEMI_WEBHOOK: ${{ secrets.SEMI_WEBHOOK }}
+    run: |
+      python news_bot.py
+
+  - name: Commit cache update
+    run: |
+      git config --global user.name "github-actions"
+      git config --global user.email "github-actions@github.com"
+
+      git add news_cache.json
+
+      git diff --cached --quiet || (
+        git commit -m "Update news cache"
+        git push
+      )
+```

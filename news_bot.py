@@ -4,7 +4,7 @@ import os
 
 WEBHOOK_URL = os.environ["DISCORD_WEBHOOK"]
 
-RSS_URL = "https://feeds.finance.yahoo.com/rss/2.0/headline?s=%5EGSPC,^IXIC&region=US&lang=en-US"
+RSS_URL = "https://news.google.com/rss/search?q=US+stock+market&hl=en-US&gl=US&ceid=US:en"
 
 response = requests.get(RSS_URL)
 
@@ -19,7 +19,6 @@ if response.status_code == 200:
     for item in items[:5]:
 
         title = item.find("title").text
-
         link = item.find("link").text
 
         message += f"• {title}\n{link}\n\n"
@@ -29,7 +28,7 @@ if response.status_code == 200:
         json={"content": message}
     )
 
-    print("News sent successfully")
+    print("Success")
 
 else:
-    print("Failed to fetch news")
+    print("Failed")

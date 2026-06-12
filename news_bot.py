@@ -22,15 +22,16 @@ if response.status_code == 200:
 
     message = "📈 **US MARKET NEWS**\n\n"
 
-    for item in items[:5]:
-        title = item.find("title").text
-        link = item.find("link").text
+    for item in items[:3]:
+    title = item.find("title").text
 
-        message += f"• {title}\n{link}\n\n"
+    message += f"📰 {title[:120]}\n\n"
+
+    message = message[:1900]
 
     r = requests.post(
-        WEBHOOK_URL,
-        json={"content": message}
+    WEBHOOK_URL,
+    json={"content": message}
     )
 
     print("Discord Status:", r.status_code)

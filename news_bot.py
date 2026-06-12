@@ -1,4 +1,3 @@
-```python
 import requests
 import xml.etree.ElementTree as ET
 import os
@@ -15,30 +14,29 @@ print("RSS Status:", response.status_code)
 
 if response.status_code == 200:
 
-    root = ET.fromstring(response.content)
+root = ET.fromstring(response.content)
 
-    items = root.findall(".//item")
+items = root.findall(".//item")
 
-    print("Items found:", len(items))
+print("Items found:", len(items))
 
-    message = "📈 **US MARKET NEWS**\n\n"
+message = "📈 US MARKET NEWS\n\n"
 
-    for item in items[:3]:
-        title = item.find("title").text
+for item in items[:3]:
+    title = item.find("title").text
 
-        message += f"📰 {title[:120]}\n\n"
+    message += f"📰 {title[:120]}\n\n"
 
-    # Discord limit = 2000 chars
-    message = message[:1900]
+message = message[:1900]
 
-    r = requests.post(
-        WEBHOOK_URL,
-        json={"content": message}
-    )
+r = requests.post(
+    WEBHOOK_URL,
+    json={"content": message}
+)
 
-    print("Discord Status:", r.status_code)
-    print("Discord Response:", r.text)
+print("Discord Status:", r.status_code)
+print("Discord Response:", r.text)
+```
 
 else:
-    print("RSS Failed")
-```
+print("RSS Failed")
